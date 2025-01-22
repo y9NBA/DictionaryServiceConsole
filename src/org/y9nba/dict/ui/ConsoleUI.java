@@ -18,7 +18,7 @@ public class ConsoleUI {
     public ConsoleUI(List<BaseDictionary> dictionaries) {
         try {
             if (dictionaries.isEmpty()) {
-                throw new EmptyDictionariesException("Словари не были переданы! Список пуст!");
+                throw new EmptyDictionariesException("Словари не были переданы! Список словарей пуст!");
             }
 
             this.dictionaries = dictionaries;
@@ -33,11 +33,10 @@ public class ConsoleUI {
 
         for (int choice = -1, action; ; ) {
             if (choice == -1) {
-                System.out.printf(
-                        "#~ Выберите один из словарей (1 - %d):\n" +
-                        "#~ \t0) Выход\n",
-                        dictionaries.size()
-                );
+                System.out.printf("""
+                        #~ Выберите один из словарей (1 - %d):
+                        #~ \t0) Выход
+                         """, dictionaries.size());
 
                 choice = sc.nextInt();
 
@@ -53,14 +52,16 @@ public class ConsoleUI {
                 selectedDictionary = dictionaries.get(choice - 1);
             }
 
-            System.out.printf(
-                    "#~ Выберите действие со словарём '%s':\n" +
-                    "#~ \t1) Просмотреть\n" +
-                    "#~ \t2) Добавить\n" +
-                    "#~ \t3) Удалить\n" +
-                    "#~ \t4) Найти\n" +
-                    "#~ \t5) Назад\n",
-                    selectedDictionary.getClass().getSimpleName());
+            System.out.printf("""
+                    #~ Выберите действие со словарём '%s' '%s':
+                    #~ \t1) Просмотреть
+                    #~ \t2) Добавить
+                    #~ \t3) Удалить
+                    #~ \t4) Найти
+                    #~ \t5) Назад
+                    """,
+                    selectedDictionary.getClass().getSimpleName(),
+                    selectedDictionary.getName());
 
             action = sc.nextInt();
             sc.nextLine();
@@ -128,12 +129,7 @@ public class ConsoleUI {
         System.out.println("?- Введите слово-ключ для поиска:");
         String keyFind = sc.nextLine();
         DictEntry foundDictEntry = dictionary.findEntry(keyFind);
-        System.out.println("*~ " +
-                (
-                        foundDictEntry == null ?
-                                "Ничего не найдено" : foundDictEntry.toString()
-                )
-        );
+        System.out.println("*~ " + (foundDictEntry == null ? "Ничего не найдено" : foundDictEntry.toString()));
     }
 
     private void show(BaseDictionary dictionary) {
